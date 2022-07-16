@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.aniketjain.memeshare.databinding.ActivityHomeBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -34,15 +33,13 @@ class HomeActivity : AppCompatActivity() {
 
     private fun onClicksListeners() {
         binding.shareBtn.setOnClickListener {
-            val intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                type = "text/plain"
-                intent.putExtra(
-                    Intent.EXTRA_TEXT,
-                    "Hey, Checkout this cool meme I got from Reddit $currentImageURL"
-                )
-            }
-            startActivity(Intent.createChooser(intent, "Share this meme using..."))
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                "Hey, Checkout this cool meme I got from Reddit $currentImageURL"
+            )
+            intent.type = "text/plain"
+            startActivity(intent)
         }
         binding.nextBtn.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE
@@ -51,8 +48,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun loadMeme() {
-        // Instantiate the RequestQueue.
-        val queue = Volley.newRequestQueue(this)
         val url = "https://meme-api.herokuapp.com/gimme"
         // Request a JSON response from the provided URL.
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
@@ -88,6 +83,6 @@ class HomeActivity : AppCompatActivity() {
             }
         )
         // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest)
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
 }

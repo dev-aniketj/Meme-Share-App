@@ -47,4 +47,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 //    for custom Toast
     implementation 'com.github.dev-aniketj:RoastyToasty:1.0.2'
+//    for custom Progress Bar
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 }
